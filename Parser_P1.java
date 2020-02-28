@@ -76,7 +76,7 @@ public class Parser
 						
 						for	(int i = 0; i < sources.size(); i++) {
 							writer.write(sources.get(i).toString().replaceFirst(".*\\$.*<", "<").replaceFirst(">.*", ">")
-									+" ~> "+ sink.replaceFirst(".*\\$.*<", "<").replaceFirst("\\(\\$.*", "").replaceFirst("\\(.*\\)", ""));
+									+" ~> "+ sink.replaceFirst(".*\\$.*<", "<").replaceFirst("\\(\\$.*", "").replaceFirst(">\\(.*\\)", ""));
 							writer.newLine();
 						}
 						
@@ -94,7 +94,7 @@ public class Parser
 			}
 			lines.add(writeLine);
 		}
-		
+		System.out.println("finished");
 	}
 	
 	public static void listFiles(String directoryName, ArrayList<String> files) {
