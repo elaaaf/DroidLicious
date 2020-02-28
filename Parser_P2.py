@@ -41,8 +41,8 @@ for i in range (0, len(df["Name"])):
                 #index = (re.search("<*...", df["Dataflows"][j][w]).start())+1
                 index = re.match(r"<.*>\s~", df["Dataflows"][j][w]).span()[1]-1
                 #print(re.match(r"<.*>\s~", df["Dataflows"][j][w]).span()[1]-1)
-                snk.append(df["Dataflows"][j][w][:(index-1)])
-                src.append(df["Dataflows"][j][w][(index+3):])
+                snk.append(df["Dataflows"][j][w][(index+3):])
+                src.append(df["Dataflows"][j][w][:(index-1)])
 
 stop = timeit.default_timer()
 
