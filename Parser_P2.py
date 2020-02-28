@@ -3,7 +3,7 @@ import os
 import re
 import timeit
 
-path = "/Users/elaafsalem/Downloads/AMD_Anlys/Parsed"
+path = "Parsed .txt files path extracted from Parser_P1.java"
 names = []
 dataflows = []
 dataflow = []
