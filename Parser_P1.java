@@ -79,7 +79,7 @@ public class Parser
 									+" ~> "+ sink);
 							
 							writer.write(sources.get(i).toString().replaceFirst(".*<", "<").replaceFirst(">.*", ">")
-										+" ~> "+ sink.replaceFirst(".*<", "<").replaceFirst(">.*", ">")+"\n");
+									+" ~> "+ sink.replaceFirst(".*\\$.*\\.<", "<").replaceFirst("\\(\\$.*", ""));
 						}
 						
 					}
