@@ -14,9 +14,8 @@ for filename in os.listdir(path):
         names.append(os.path.basename(filename)[:-6])
         for line in f:
             file = open(path+"/"+filename,"r")
-            #temp = file.readlines()
-            dataflow.append(line.rstrip('\n'))
-            #file.close()
+            #dataflow.append(line.rstrip('\n'))
+            dataflow.append(line)
         dataflows.append(dataflow)
         dataflow = []
 
