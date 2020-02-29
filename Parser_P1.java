@@ -1,4 +1,3 @@
-//Don't forget to add xmlpull-1.1.3.1.jar file
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,8 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.xmlpull.v1.XmlPullParserException;
 
 public class Parser 
 {
@@ -19,7 +16,7 @@ public class Parser
 	final static String space = " ";
 	
 
-	public static void main(String[] args) throws IOException, XmlPullParserException
+	public static void main(String[] args) throws IOException
 	{
 		ArrayList<String> lines = new ArrayList<String>();
 		ArrayList<String> fileNames = new ArrayList<String>();
