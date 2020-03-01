@@ -72,9 +72,10 @@ public class Parser
 						}
 						
 						for	(int i = 0; i < sources.size(); i++) {
-							writer.write(sources.get(i).toString().replaceFirst(".*\\$.*<", "<").replaceFirst(">.*", ">")
-									+" ~> "+ sink.replaceFirst(".*\\$.*<", "<").replaceFirst("\\(\\$.*", "").replaceFirst(">\\(.*\\)", ""));
-							writer.newLine();
+							writer.write(sources.get(i).toString().replaceFirst(".*\\$.*<",
+							  "<").replaceFirst(">.*", ">") +" ~> "+ sink.replaceAll("<init>", "init").replaceFirst(".*<",
+							  "<").replaceFirst(">\\(.*\\)",">").replaceFirst("staticinvoke ", ""));
+							  writer.newLine();
 						}
 						
 					}
