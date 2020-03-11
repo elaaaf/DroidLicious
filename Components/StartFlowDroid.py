@@ -13,17 +13,21 @@ flowDroid_Dir = droidalicius_DIR + "Components/FlowDroid/"
 Analysis_Output_dir = droidalicius_DIR + "Components/Analysis_Output"
 
 cmd_Headr = " java -Xmx10G -cp soot-trunk.jar;soot-infoflow.jar;soot-infoflow-android.jar;slf4j-api-1.7.5.jar;slf4j-simple-1.7.5.jar;axml-2.0.jar soot.jimple.infoflow.android.TestApps.Test"
-OPTIONS = "--static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
 
 
-def runFlowDroid(apk_dir):
+def runFlowDroid(apk_dir, option):
+    OPTIONS = " --static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
+
     apk_dir = Apk_dir_validity(apk_dir)  # cleaning the dir
+    if(option.__len__()>0): # if user change the defualt options
+        OPTIONS=option
 
     if (not path.exists(Analysis_Output_dir)):  # if the analysis folder not exists
         os.mkdir(Analysis_Output_dir)
 
     resultFile = os.path.basename(apk_dir).replace(".apk", "FlowDroidResult.txt")
-    cmd = cmd_Headr + " \"" + apk_dir + "\" " + JARS_dir + " --static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
+
+    cmd = cmd_Headr + " \"" + apk_dir + "\" " + JARS_dir + OPTIONS
 
     os.chdir(flowDroid_Dir)  # go to FlowDroid folder to run the command
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
