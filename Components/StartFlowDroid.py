@@ -18,14 +18,13 @@ cmd_Headr = " java -Xmx10G -cp soot-trunk.jar;soot-infoflow.jar;soot-infoflow-an
 def runFlowDroid(apk_dir, option):
     OPTIONS = " --static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
 
-    apk_dir = Apk_dir_validity(apk_dir)  # cleaning the dir
-    if(option.__len__()>0): # if user change the defualt options
+    if(not option.__contains__("None")): # if user change the defualt options
         OPTIONS=option
 
     if (not path.exists(Analysis_Output_dir)):  # if the analysis folder not exists
         os.mkdir(Analysis_Output_dir)
 
-    resultFile = os.path.basename(apk_dir).replace(".apk", "FlowDroidResult.txt")
+    resultFile = os.path.basename(apk_dir).replace(".apk", "_FlowDroidResult.txt")
 
     cmd = cmd_Headr + " \"" + apk_dir + "\" " + JARS_dir + OPTIONS
 
@@ -53,15 +52,3 @@ def runFlowDroid(apk_dir, option):
         return False
 
 
-def Apk_dir_validity(APK_dir): # add more
-    apk_name = os.path.basename(APK_dir)
-    if (' ' in apk_name):
-        apk_name = apk_name.replace(" ", "_")
-        apk_dir = APK_dir.replace(os.path.basename(APK_dir), apk_name)
-
-        if ('\a' in apk_dir):
-            apk_dir = apk_dir.replace('\a', '\\a')
-
-        if ('\r' in apk_dir):
-            apk_dir = apk_dir.replace('\r', '\\r')
-    return APK_dir
