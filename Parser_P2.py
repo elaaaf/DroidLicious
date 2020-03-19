@@ -32,9 +32,12 @@ B_label = [0]*(len(B_names))
 
 df = pd.DataFrame({"Name":(M_names+B_names),"Dataflows":(M_dataflows+B_dataflows), "Label":(M_label+B_label)})
 
+df.head()
+
 name = []
 src = []
 snk = []
+label = []
 index = 0
 
 start = timeit.default_timer()
@@ -42,22 +45,17 @@ length = len(df)
 for i in range (0, length):
     print("App#%d out of %d" % (i, length))
     for j in range (0, (len(df["Dataflows"][i]))):
-        if(df["Dataflows"][j] == []):
+        if(df["Dataflows"][i] == []):
             name.append(df["Name"][j])
             src.append("NO_SENSITIVE_SOURCE")
             snk.append("NO_SENSITIVE_SINK")
+            label.append(df["Label"][j])
         else:
-            for w in range (0, len(df["Dataflows"][i])):
-                #print("DATA %d out of %d" % (j,len(df["Dataflows"][i])))
-                name.append(df["Name"][i])
-                #index = (re.search("<*...", df["Dataflows"][j][w]).start())+1
-                index = re.match(r".*\s~>", df["Dataflows"][i][j]).span()[1]-1
-                #1index = re.match(r"<.*>\s~", df["Dataflows"][j][w]).span()[1]-1
-                #print(re.match(r"<.*>\s~", df["Dataflows"][j][w]).span()[1]-1)
-                src.append(df["Dataflows"][i][j][:(index-1)])
-                #print(df["Dataflows"][j][w][:(index-1)])
-                snk.append(df["Dataflows"][i][j][(index+3):-1])
-                #print(df["Dataflows"][j][w][(index+3):-1])
+            name.append(df["Name"][i])
+            index = re.match(r".*\s~>", df["Dataflows"][i][j]).span()[1]-1
+            src.append(df["Dataflows"][i][j][:(index-1)])
+            snk.append(df["Dataflows"][i][j][(index+2):-1])
+            label.append(df["Label"][i])
    
  
 end = timeit.default_timer()
@@ -66,4 +64,4 @@ print('Time: ', end - start, "s")
 
 df_final = pd.DataFrame({"Name":name,"Source":src, "Sink":snk, "Label":label})
 df_final.to_csv("Data/final.csv")
-df_final.head()
+df_final.head(10000)
