@@ -1,4 +1,5 @@
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,17 +8,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 public class Parser 
 {
 
-	static String path = "Add the APKs path here";
-	public static File folder = new File(path);
 	static String temp = "";
 	final static String space = " ";
 	
 
 	public static void main(String[] args) throws IOException
 	{
+		parse("Benign txt files path");
+		parse("Malicious txt files path");
+	}
+	
+	public static void parse(String path) throws IOException {
 		ArrayList<String> lines = new ArrayList<String>();
 		ArrayList<String> fileNames = new ArrayList<String>();
 		listFiles(path, fileNames);
@@ -30,7 +35,6 @@ public class Parser
 
 			if(fileName.contains(".txt")) 
 				 FlowDroidResultFile = fileName.substring(0, fileName.lastIndexOf('_')) + "_P.txt";
-			
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(FlowDroidResultFile));
 			BufferedReader flowDroidResultsReader = new BufferedReader(new FileReader(fileName));
@@ -64,7 +68,6 @@ public class Parser
 								writeLine = readLine;
 								writeLine = writeLine.replaceFirst(">\\)", ">");
 								writeLine = writeLine.replaceFirst("\\s*-\\s", "");
-								//Ask about this one:
 								String[] temp = writeLine.split("\\(in ");
 								sources.add(temp[0]);
 							}
@@ -72,8 +75,11 @@ public class Parser
 						}
 						
 						for	(int i = 0; i < sources.size(); i++) {
-							writer.write(sources.get(i).toString().replaceFirst(".*\\$.*<",
-							  "<").replaceFirst(">.*", ">") +" ~> "+ sink.replaceAll("<init>", "init").replaceFirst(".*<",
+							if (sources.get(i).contains("@parameter")) 
+								  continue;
+							  
+							  writer.write(sources.get(i).toString().replaceFirst(".*\\$.*<",
+							  "<").replaceFirst(">.*", ">").replaceFirst(".*@parameter[0-9]\\:\\s","") +" ~> "+ sink.replaceAll("<init>", "init").replaceFirst(".*<",
 							  "<").replaceFirst(">\\(.*\\)",">").replaceFirst("staticinvoke ", ""));
 							  writer.newLine();
 						}
@@ -92,9 +98,9 @@ public class Parser
 			}
 			lines.add(writeLine);
 		}
+	
 		System.out.println("finished");
 	}
-	
 	public static void listFiles(String directoryName, ArrayList<String> files) {
 		File directory = new File(directoryName);
 		File[] fList = directory.listFiles();
@@ -104,3 +110,6 @@ public class Parser
 			
 	}
 }
+
+
+ 
