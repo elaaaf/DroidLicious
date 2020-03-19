@@ -12,12 +12,12 @@ import timeit
 
 #INPUT
 pathFD = "*_FD.txt"
-ParseFDclassPath = "*.class"
+ParseFDclassPath = "*.class folder"
 
 
 ############################ParseFD##############################
 #############################INPUT###############################
-#classPath: put the path of the ParseFD.class file
+#classPath: put the path of the ParseFD.class folder
 #FDtxtPath: put the path of the output of flowdroid *_FD.txt
 ############################OUTPUT###############################
 #The path of the new parsed file *_P.txt
@@ -76,3 +76,6 @@ def parseP(path):
             snk.append(data[(index+2):-1]) #after the arrow: snk
     App = [names, src, snk] #zip them together
     return App
+
+###########################EXAMPLE###############################
+parseP(ParseFD(ParseFDclassPath, pathFD))
