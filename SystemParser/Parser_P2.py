@@ -13,10 +13,7 @@ def readDataflows(path):
             with open(path+"/"+filename) as f:
                 names.append(os.path.basename(filename)[:-6])
                 for line in f:
-                    file = open(path+"/"+filename,"r")
-                    #temp = file.readlines()
                     dataflow.append(line)
-                    #file.close()
                 dataflows.append(dataflow)
                 dataflow = []
     return names, dataflows
