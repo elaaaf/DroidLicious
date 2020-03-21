@@ -4,14 +4,14 @@
 #user the parsed output of flowdroid.
 #################################################################
 
-import pandas as pd
+#import pandas as pd
 import os
 import subprocess
 import re
 import timeit
 
 #INPUT
-pathFD = "*_FD.txt"
+#pathFD = "*_FD.txt"
 ParseFDclassPath = "*.class folder"
 
 
@@ -32,9 +32,15 @@ ParseFDclassPath = "*.class folder"
 
 def ParseFD(classPath, FDtxtPath):
     os.chdir(classPath)
-    process = subprocess.Popen('java ParseFD '+FDtxtPath, shell=True, stdout=subprocess.PIPE, 
+    process = subprocess.Popen('java ParseFD '+FDtxtPath, shell=True, stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
+    process=process.communicate()
+    print("-------------------------------------------")
+
+
     return (FDtxtPath[:-6]+"P.txt")
+
+
 
 ############################ParseP###############################
 #############################INPUT###############################
@@ -50,7 +56,7 @@ def ParseFD(classPath, FDtxtPath):
 #ParseFD(classPath, FDtxtPath) function
 #################################################################
 def parseP(path):
-    
+
     #get the file name without the extension
     name = os.path.basename(path)[:-6]
     
@@ -59,6 +65,7 @@ def parseP(path):
     with open(path) as f:
         for line in f:
             dataflows.append(line)
+            print(line)
     
     #prepare the app data to send it to the ML model
     names = []
@@ -78,4 +85,4 @@ def parseP(path):
     return App
 
 ###########################EXAMPLE###############################
-parseP(ParseFD(ParseFDclassPath, pathFD))
+#parseP(ParseFD(ParseFDclassPath, pathFD))

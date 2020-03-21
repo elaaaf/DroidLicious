@@ -1,7 +1,14 @@
 import argparse
 from os import path
 from Components.StartFlowDroid import runFlowDroid
+from UserParser.UserParserComponent import  parseP
+from UserParser.UserParserComponent import ParseFD
 import os
+import glob
+droidalicius_DIR = os.getcwd() + "\\"
+output_folder = droidalicius_DIR + "Components\Analysis_Output"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('file', type=str , help="get the result")
@@ -14,20 +21,24 @@ def main():
     isDirValide(file_dir)
 
     if(path.basename(file_dir).endswith(".apk")):
-
-        if(not runFlowDroid(file_dir,fd_options)): exit()
-
+        analysis_Result_file= runFlowDroid(file_dir,fd_options)
+        if(not analysis_Result_file): exit() #exit if time out
 
     elif (path.basename(file_dir).endswith(".txt")):
-        print("parser..................")
+             analysis_Result_file = file_dir
     else:
-        print("file type is not supported")
-        exit()
+     print("file type is not supported")
+     exit()
 
+    print("parsing the analysis output")
+    #path_FD_Result = findTxtFile(analysis_Result_file)
+    parseP(ParseFD(os.getcwd()+"\\UserParser", analysis_Result_file))
+    #parser step
+    print("Parser done")
 
+  #  delete_Output() # delete all the outpute during the analysis and parsing :)
 
-def isDirValide(file_dir): # add more
-
+def isDirValide(file_dir):
     if(not path.exists(file_dir)):
         print("Cant find the file")
         exit()
@@ -38,6 +49,19 @@ def isDirValide(file_dir): # add more
     if (not path.isdir(file_dir.replace(file_name, ""))):
         print("The path does not exists")
         exit()
+
+def findTxtFile(analysis_Result_file):
+    current_dir=os.getcwd()
+    return (current_dir + "\Components\Analysis_Output\\"+analysis_Result_file)
+
+def delete_Output():
+   os.chdir(output_folder)
+   for root,dir,files in os.walk(output_folder):
+       for f in files:
+           if (path.isfile(f)):
+            print(path.basename(f))
+            os.remove(f)
+os.chdir(droidalicius_DIR)
 
 
 

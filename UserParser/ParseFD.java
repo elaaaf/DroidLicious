@@ -14,7 +14,7 @@ public class ParseFD {
 
 	public static void main(String[] args) throws IOException
 	{
-		//parse("/Users/elaafsalem/Downloads/AMD_Anlys/Test/0a1b02e7377a88445516119dd1c4939f_FD.txt");
+		//parse("C:\\Users\\shosho\\DroidLicious\\Components\\Analysis_Output\\Angry_Birds_1_3_5_FD.txt");
 		parse(args[0]);
 	}
 	
@@ -50,8 +50,8 @@ public class ParseFD {
 						read = true;
 						ArrayList<String> sources = new ArrayList<String>();
 						while (!(readLine == null)
-								&& !(readLine
-										.matches("Found a flow to sink .*, from the following sources:"))) {
+								&& !(readLine.matches("Found a flow to sink .*, from the following sources:"))) {
+										
 							if (readLine.matches("\\s*-\\s.*")) {
 								writeLine = readLine;
 								writeLine = writeLine.replaceFirst(">\\)", ">");
