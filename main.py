@@ -5,8 +5,8 @@ from UserParser.UserParserComponent import  parseP
 from UserParser.UserParserComponent import ParseFD
 import os
 import glob
-droidalicius_DIR = os.getcwd() + "\\"
-output_folder = droidalicius_DIR + "Components\Analysis_Output"
+droidalicius_DIR = os.getcwd() + "/"
+output_folder = droidalicius_DIR + "Components/Analysis_Output"
 
 
 def main():
@@ -32,7 +32,7 @@ def main():
 
     print("parsing the analysis output")
     #path_FD_Result = findTxtFile(analysis_Result_file)
-    parseP(ParseFD(os.getcwd()+"\\UserParser", analysis_Result_file))
+    parseP(ParseFD(os.getcwd()+"/UserParser", analysis_Result_file))
     #parser step
     print("Parser done")
 
@@ -52,7 +52,7 @@ def isDirValide(file_dir):
 
 def findTxtFile(analysis_Result_file):
     current_dir=os.getcwd()
-    return (current_dir + "\Components\Analysis_Output\\"+analysis_Result_file)
+    return (current_dir + "/Components/Analysis_Output/"+analysis_Result_file)
 
 def delete_Output():
    os.chdir(output_folder)

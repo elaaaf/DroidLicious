@@ -8,7 +8,7 @@ import subprocess
 
 droidalicius_DIR = os.getcwd() + "/"
 
-JARS_dir = "C:\Tools\platforms"  # change later
+JARS_dir = "C:/Tools/platforms"  # change later
 flowDroid_Dir = droidalicius_DIR + "Components/FlowDroid/"
 Analysis_Output_dir = droidalicius_DIR + "Components/Analysis_Output"
 
