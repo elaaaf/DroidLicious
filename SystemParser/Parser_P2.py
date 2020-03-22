@@ -31,6 +31,25 @@ df = pd.DataFrame({"Name":(M_names+B_names),"Dataflows":(M_dataflows+B_dataflows
 
 df.head()
 
+
+###############################################
+#Still working on this
+col = ["NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK"]
+test = df.Dataflows
+list1 = []
+for d in df.Dataflows:
+    if (d == []):
+        continue
+    else:
+        for x in d:
+            col.append(x)
+            
+print("before ", len(col))
+col_unique = list(dict.fromkeys(col))
+print("after ",len(col_unique))
+###############################################
+
+
 name = []
 src = []
 snk = []
