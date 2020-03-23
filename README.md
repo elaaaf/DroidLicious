@@ -12,4 +12,4 @@ This labeled dataset has 3529 android applications, 2263 of them are malicious a
 -------------------------------<br/>
 |Name | Src n ~> Snk n | label|<br/>
 -------------------------------<br/>
-link: https://drive.google.com/file/d/1hQNAKUYAYPucsP_7NAnrdHjJ40mUkIFf/view?usp=sharing
+link :https://drive.google.com/open?id=1awd2af829WcJLuBAaH45mfZBFaM-K7gr
