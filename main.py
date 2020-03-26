@@ -23,17 +23,17 @@ def main():
     if(path.basename(file_dir).endswith(".apk")):
         analysis_Result_file= runFlowDroid(file_dir,fd_options)
         if(not analysis_Result_file): exit() #exit if time out
-
+        print(analysis_Result_file)
     elif (path.basename(file_dir).endswith(".txt")):
              analysis_Result_file = file_dir
     else:
-     print("file type is not supported")
+     print("file type  not supported")
      exit()
 
     print("parsing the analysis output")
     #path_FD_Result = findTxtFile(analysis_Result_file)
-    parseP(ParseFD(os.getcwd()+"/UserParser", analysis_Result_file))
-    #parser step
+    App= parseP(ParseFD(droidalicius_DIR+"UserParser/", analysis_Result_file))
+    print (App)
     print("Parser done")
 
   #  delete_Output() # delete all the outpute during the analysis and parsing :)

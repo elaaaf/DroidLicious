@@ -8,8 +8,9 @@ import subprocess
 
 droidalicius_DIR = os.getcwd() + "/"
 
-JARS_dir = "C:/Tools/platforms"  # change later
 flowDroid_Dir = droidalicius_DIR + "Components/FlowDroid/"
+JARS_dir = "sdk path"  # change later , still trying to find better way
+
 Analysis_Output_dir = droidalicius_DIR + "Components/Analysis_Output"
 
 cmd_Headr = " java -Xmx10G -cp soot-trunk.jar;soot-infoflow.jar;soot-infoflow-android.jar;slf4j-api-1.7.5.jar;slf4j-simple-1.7.5.jar;axml-2.0.jar soot.jimple.infoflow.android.TestApps.Test"
@@ -48,7 +49,7 @@ def runFlowDroid(apk_dir, option):
            output.write(str(stdout).replace("\\n", "\n").replace("\\t", "\t").replace("\\r", ""))
         print("analysis is done")
         os.chdir(droidalicius_DIR) # back to working directory
-        return (Analysis_Output_dir+"\\"+resultFile)
+        return (Analysis_Output_dir+"/"+resultFile)
     else:
         print("Static analysis timeout ")
         os.chdir(droidalicius_DIR)

@@ -35,7 +35,6 @@ def ParseFD(classPath, FDtxtPath):
     process = subprocess.Popen('java ParseFD '+FDtxtPath, shell=True, stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
     process=process.communicate()
-    print("-------------------------------------------")
 
 
     return (FDtxtPath[:-6]+"P.txt")
@@ -65,7 +64,7 @@ def parseP(path):
     with open(path) as f:
         for line in f:
             dataflows.append(line)
-            print(line)
+            #print(line)
     
     #prepare the app data to send it to the ML model
     names = []
