@@ -13,3 +13,9 @@ This labeled dataset has 3529 android applications, 2263 of them are malicious a
 |Name | Src n ~> Snk n | label|<br/>
 -------------------------------<br/>
 link :https://drive.google.com/open?id=1awd2af829WcJLuBAaH45mfZBFaM-K7gr
+
+-command <br/>
+-------------------------------<br/>
+python main.py "Apk/txt path" <br/>
+-------------------------------<br/>
+python main.py --fd_option "options" "Apk path"
