@@ -15,6 +15,8 @@ This labeled dataset has 3529 android applications, 2263 of them are malicious a
 link :https://drive.google.com/open?id=1awd2af829WcJLuBAaH45mfZBFaM-K7gr
 
 -command <br/>
+befor you run it ,change line 12 in startFlowDroid.py <br/>
+
 -------------------------------<br/>
 python main.py "Apk/txt path" <br/>
 -------------------------------<br/>
