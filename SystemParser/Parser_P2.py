@@ -33,23 +33,56 @@ df.head()
 
 
 ###############################################
-#Still working on this
-col = ["NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK"]
-test = df.Dataflows
-list1 = []
-for d in df.Dataflows:
-    if (d == []):
-        continue
-    else:
-        for x in d:
-            col.append(x)
-            
-print("before ", len(col))
-col_unique = list(dict.fromkeys(col))
-print("after ",len(col_unique))
+#FORM 2
+def fillRows(df):
+    col = ["NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK"]
+    test = df.Dataflows
+    for d in df.Dataflows:
+        if (d == []):
+            continue
+        else:
+            for x in d:
+                col.append(x)
+
+    print("before ", len(col))
+    col_unique = list(dict.fromkeys(col))
+    print("after ",len(col_unique))
+    entries = []
+    tempList = []
+    length = len(df)
+    for i in range (0, length):
+        print("App#%d out of %d" % (i+1, length))
+        if(df["Dataflows"][i] == []):
+            tempList.append(df["Name"][i])
+            tempList.append(1)
+            tempList.extend(repeat(0, len(col_unique)-1))
+            tempList.append(df["Label"][i])
+            entries.append(tempList)
+            tempList=[]
+        else:
+            tempList.append(df["Name"][i])
+            for j in range (0, len(col_unique)):
+                if col_unique[j] in df["Dataflows"][i]:
+                    tempList.append(1)
+                else:
+                    tempList.append(0)
+
+            tempList.append(df["Label"][i])
+
+            entries.append(tempList)
+
+            tempList = []
+    #print(entries)
+    col_unique.insert(0, "Name")
+    col_unique.insert(len(col_unique)+1, "Label")
+    df_new =  pd.DataFrame(entries, columns=col_unique)
+    df_new.to_csv("Data/final2.csv")
+df_new = fillRows(df)
+df_new.head()
 ###############################################
 
-
+###############################################
+#FORM 1
 name = []
 src = []
 snk = []
@@ -81,3 +114,4 @@ print('Time: ', end - start, "s")
 df_final = pd.DataFrame({"Name":name,"Source":src, "Sink":snk, "Label":label})
 df_final.to_csv("Data/final.csv")
 df_final.head(10000)
+###############################################
