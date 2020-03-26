@@ -86,3 +86,33 @@ def parseP(path):
 
 ###########################EXAMPLE###############################
 #parseP(ParseFD(ParseFDclassPath, pathFD))
+
+
+
+
+#########################fillTemplate############################
+# FOR MACHINE LEARNING MODEL, needs more testing
+#################################################################
+
+def fillTemplate(MLcolumnsList, parsedFilePath):
+    dataflows = []
+    tempList = []
+    with open(parsedFilePath) as f:
+        for line in f:
+            dataflows.append(line)
+            print(line)
+            
+    tempList.append(os.path.basename(parsedFilePath)[:-6])
+
+    if(dataflows == [] & ("NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK" in MLcolumnsList)):
+        dataflows.append("NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK")
+        
+    else:
+        return [0]*len(MLcolumnsList)
+        
+    for i in tempList:      
+        if i in MLcolumnsList:
+                tempList.append(1)
+        else:
+                tempList.append(0)
+    return tempList
