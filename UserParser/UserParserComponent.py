@@ -9,7 +9,7 @@ import os
 import subprocess
 import re
 import timeit
-
+from os import path
 #INPUT
 #pathFD = "*_FD.txt"
 ParseFDclassPath = "*.class folder"
@@ -30,14 +30,27 @@ ParseFDclassPath = "*.class folder"
 #model to predict if the app have a malicious behavior.
 #################################################################
 
-def ParseFD(classPath, FDtxtPath):
+
+
+def finderror(path):
+    with open(path) as f:
+        for line in f:
+           if line.find("Invalid path reconstruction algorithm"):
+            print(line)
+            exit(0)
+
+
+def ParseFD(classPath, FDtxtPath ,Analysis_Output_dir):
     os.chdir(classPath)
-    process = subprocess.Popen('java ParseFD '+FDtxtPath, shell=True, stdout=subprocess.PIPE,
+    resultP= Analysis_Output_dir+"/"+ path.basename(FDtxtPath).replace('_FD','_P')
+    process = subprocess.Popen('java ParseFD '+FDtxtPath+' '+Analysis_Output_dir, shell=True, stdout=subprocess.PIPE,
                            stderr=subprocess.STDOUT)
-    process=process.communicate()
-
-
-    return (FDtxtPath[:-6]+"P.txt")
+    stdout, stderr = process.communicate()
+    #with open(resultP, "w") as output:
+     #   output.write(str(stdout))
+    print(FDtxtPath+' '+Analysis_Output_dir)
+    return (resultP)
+  #  return (FDtxtPath[:-6]+"P.txt")
 
 
 

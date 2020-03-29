@@ -9,7 +9,7 @@ import subprocess
 droidalicius_DIR = os.getcwd() + "/"
 
 flowDroid_Dir = droidalicius_DIR + "Components/FlowDroid/"
-JARS_dir = "sdk path"  # change later , still trying to find better way
+JARS_dir = "C:/Tools/platforms "  # change later , still trying to find better way
 
 Analysis_Output_dir = droidalicius_DIR + "Components/Analysis_Output"
 
@@ -17,7 +17,7 @@ cmd_Headr = " java -Xmx10G -cp soot-trunk.jar;soot-infoflow.jar;soot-infoflow-an
 
 
 def runFlowDroid(apk_dir, option):
-    OPTIONS = " --static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
+    OPTIONS = "--static  --aliasflowsen --callbacks --layoutmode none --noarraysize --aplength 5 --pathalgo sourcesonly"
 
     if(not option.__contains__("None")): # if user change the defualt options
         OPTIONS=option

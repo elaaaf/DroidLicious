@@ -3,10 +3,11 @@ from os import path
 from Components.StartFlowDroid import runFlowDroid
 from UserParser.UserParserComponent import  parseP
 from UserParser.UserParserComponent import ParseFD
+import UserParser.UserParserComponent
 import os
 import glob
 droidalicius_DIR = os.getcwd() + "/"
-output_folder = droidalicius_DIR + "Components/Analysis_Output"
+output_folder = droidalicius_DIR + "Components/Analysis_Output/"
 
 
 def main():
@@ -32,7 +33,10 @@ def main():
 
     print("parsing the analysis output")
     #path_FD_Result = findTxtFile(analysis_Result_file)
-    App= parseP(ParseFD(droidalicius_DIR+"UserParser/", analysis_Result_file))
+
+    #UserParser.UserParserComponent.finderror(analysis_Result_file)
+
+    App= parseP(ParseFD(droidalicius_DIR+"UserParser/", analysis_Result_file,output_folder ))
     print (App)
     print("Parser done")
 
