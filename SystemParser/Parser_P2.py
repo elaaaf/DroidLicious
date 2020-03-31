@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import re
 import timeit
+from itertools import repeat
 
 
 def readDataflows(path):
@@ -13,7 +14,7 @@ def readDataflows(path):
             with open(path+"/"+filename) as f:
                 names.append(os.path.basename(filename)[:-6])
                 for line in f:
-                    dataflow.append(line)
+                    dataflow.append(line[:-1])
                 dataflows.append(dataflow)
                 dataflow = []
     return names, dataflows
@@ -72,46 +73,48 @@ def fillRows(df):
             entries.append(tempList)
 
             tempList = []
-    #print(entries)
+    
     col_unique.insert(0, "Name")
     col_unique.insert(len(col_unique)+1, "Label")
     df_new =  pd.DataFrame(entries, columns=col_unique)
-    df_new.to_csv("Data/final2.csv")
-df_new = fillRows(df)
-df_new.head()
+    df_new.to_csv("Data/FINAL_DATASET.csv")
+    
+    
+fillRows(df)
+
 ###############################################
 
 ###############################################
 #FORM 1
-name = []
-src = []
-snk = []
-label = []
-index = 0
+#name = []
+#src = []
+#snk = []
+#label = []
+#index = 0
 
-start = timeit.default_timer()
-length = len(df)
-for i in range (0, length):
-    print("App#%d out of %d" % (i, length))
-    for j in range (0, (len(df["Dataflows"][i]))):
-        if(df["Dataflows"][i] == []):
-            name.append(df["Name"][j])
-            src.append("NO_SENSITIVE_SOURCE")
-            snk.append("NO_SENSITIVE_SINK")
-            label.append(df["Label"][j])
-        else:
-            name.append(df["Name"][i])
-            index = re.match(r".*\s~>", df["Dataflows"][i][j]).span()[1]-1
-            src.append(df["Dataflows"][i][j][:(index-1)])
-            snk.append(df["Dataflows"][i][j][(index+2):-1])
-            label.append(df["Label"][i])
+#start = timeit.default_timer()
+#length = len(df)
+#for i in range (0, length):
+#    print("App#%d out of %d" % (i, length))
+#    for j in range (0, (len(df["Dataflows"][i]))):
+#        if(df["Dataflows"][i] == []):
+#            name.append(df["Name"][j])
+#            src.append("NO_SENSITIVE_SOURCE")
+#            snk.append("NO_SENSITIVE_SINK")
+#            label.append(df["Label"][j])
+#        else:
+#            name.append(df["Name"][i])
+#            index = re.match(r".*\s~>", df["Dataflows"][i][j]).span()[1]-1
+#            src.append(df["Dataflows"][i][j][:(index-1)])
+#            snk.append(df["Dataflows"][i][j][(index+2):-1])
+#            label.append(df["Label"][i])
    
  
-end = timeit.default_timer()
+#end = timeit.default_timer()
 
-print('Time: ', end - start, "s")  
+#print('Time: ', end - start, "s")  
 
-df_final = pd.DataFrame({"Name":name,"Source":src, "Sink":snk, "Label":label})
-df_final.to_csv("Data/final.csv")
-df_final.head(10000)
+#df_final = pd.DataFrame({"Name":name,"Source":src, "Sink":snk, "Label":label})
+#df_final.to_csv("Data/final.csv")
+#df_final.head(10000)
 ###############################################
