@@ -41,7 +41,7 @@ def parser_steps(FDtxtPath ,Analysis_Output_dir):
 def finderror(path):
     with open(path) as f:
         for line in f:
-            if (line.__contains__('Exception in thread "main"')):
+            if (line.__contains__('Exception in thread "main"')): # error msg from flowdroid
                 i =line.find(':')+1
                 print(line[i:])
                 exit(0)
@@ -96,7 +96,7 @@ def fillTemplate(MLcolumnsList,pathFD,Analysis_Output_dir):
         for line in f:
             dataflows.append(line[:-1])
 
-    tempList.append(os.path.basename(parsedFilePath)[:-6])
+    tempList.append(os.path.basename(parsedFilePath)[:-6])#DO WE need the app name ?
 
 
     

@@ -107,7 +107,8 @@ def set_option(input_option):
         if (not arr[i].isdecimal()):
             print("enter length correctly")
             exit()
-
+    else:
+        fd_option +='--aplength 2'  # defult option
     if (arr.__contains__('noback')):
         fd_option += '--nocallbacks' + space
 
