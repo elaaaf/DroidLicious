@@ -19,8 +19,8 @@ def readDataflows(path):
                 dataflow = []
     return names, dataflows
 
-M_path = "Malicious Parsed .txt files path extracted from Parser_P1.java"
-B_path = "Benign Parsed .txt files path extracted from Parser_P1.java"
+M_path = "F:\Project\Parsed Dataset\M"
+B_path = "F:\Project\Parsed Dataset\B"
 
 M_names, M_dataflows = readDataflows(M_path)
 B_names, B_dataflows = readDataflows(B_path)

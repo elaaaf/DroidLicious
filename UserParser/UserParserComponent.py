@@ -12,8 +12,8 @@ import timeit
 from os import path
 
 #INPUT
-pathFD = "/Users/elaafsalem/Downloads/AMD_Anlys/Test/357d366f9b43e8f1acb334d57e7559b3_FD.txt"
-classPath = "/Users/elaafsalem/Graduation Project/"
+#pathFD = "/Users/elaafsalem/Downloads/AMD_Anlys/Test/357d366f9b43e8f1acb334d57e7559b3_FD.txt"
+classPath = os.getcwd()+"/UserParser/"
 
 MLcolumnsList = [
        '<java.net.URL: java.net.URLConnection openConnection()> ~> <java.net.HttpURLConnection: void setRequestMethod(java.lang.String)>',
@@ -33,17 +33,22 @@ MLcolumnsList = [
        '<android.os.Bundle: java.io.Serializable getSerializable(java.lang.String)> ~> <android.os.Bundle: void putSerializable(java.lang.String,java.io.Serializable)> ']
   
 
+def parser_steps(FDtxtPath ,Analysis_Output_dir):
+    finderror(FDtxtPath)
+    result=fillTemplate(MLcolumnsList,FDtxtPath,Analysis_Output_dir)
+    return result
 
 def finderror(path):
     with open(path) as f:
         for line in f:
-           if line.find("Invalid path reconstruction algorithm"):
-            print(line)
-            exit(0)
+            if (line.__contains__('Exception in thread "main"')):
+                i =line.find(':')+1
+                print(line[i:])
+                exit(0)
 
 
 #######CHANGED TO BE DELETED##########################################
-def ParseFD(classPath, FDtxtPath ,Analysis_Output_dir):
+def ParseFD(FDtxtPath ,Analysis_Output_dir):
     os.chdir(classPath)
     resultP= Analysis_Output_dir+"/"+ path.basename(FDtxtPath).replace('_FD','_P')
     process = subprocess.Popen('java ParseFD '+FDtxtPath+' '+Analysis_Output_dir, shell=True, stdout=subprocess.PIPE,
@@ -73,15 +78,17 @@ def ParseFD(classPath, FDtxtPath ,Analysis_Output_dir):
 #is used in the machine learning model to predict if the app have 
 #a malicious behavior.
 ######################################################################
-def fillTemplate(MLcolumnsList,pathFD):
+def fillTemplate(MLcolumnsList,pathFD,Analysis_Output_dir):
     os.chdir(classPath)
-    process = subprocess.Popen('java ParseFD '+pathFD, shell=True, stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT)
+    resultP = Analysis_Output_dir + "/" + path.basename(pathFD).replace('_FD', '_P')
+    process = subprocess.Popen('java ParseFD ' + pathFD + ' ' + Analysis_Output_dir, shell=True,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT)
     process=process.communicate()
     print("-------------------------------------------")
 
-    parsedFilePath = (pathFD[:-6]+"P.txt")
-
+    #parsedFilePath = (pathFD[:-6]+"P.txt")
+    parsedFilePath=resultP
     dataflows = []
     tempList = []
     
@@ -106,5 +113,5 @@ def fillTemplate(MLcolumnsList,pathFD):
 
 
 ###########################EXAMPLE###############################
-print(fillTemplate(MLcolumnsList,pathFD))
+#print(fillTemplate(MLcolumnsList,pathFD))
 
