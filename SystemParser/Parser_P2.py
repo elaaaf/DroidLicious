@@ -77,7 +77,7 @@ def fillRows(df):
     col_unique.insert(0, "Name")
     col_unique.insert(len(col_unique)+1, "Label")
     df_new =  pd.DataFrame(entries, columns=col_unique)
-    df_new.to_csv("Data/FINAL_DATASET.csv")
+    df_new.to_csv("FINAL_DATASET.csv")
     
     
 fillRows(df)
