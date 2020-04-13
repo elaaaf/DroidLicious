@@ -1,17 +1,21 @@
 import argparse
 from os import path
 from StartFlowDroid import runFlowDroid
-from UserParser.UserParserComponent import parser_steps
+from UserParser.UserParserComponent import parser_steps ,get_featureNames
 import os
 import pickle
 import sklearn
 import numpy as np
+from colorama import Fore,init
 
 
 
 
 drd_dir = os.getcwd() + "/"  #droidlicious working dircroty
 output_folder = drd_dir + "Analysis_Output/"
+
+init(autoreset=True)# color
+
 
 
 
@@ -30,46 +34,50 @@ def  main(file_path,input_options,sdk_path):# the working flow start from here
             print("To analyze apk file, must enter -sdk")
             exit()
         elif (not path.isdir(sdk_path)):
-            print("can not find SDK path")
+            print(Fore.RED+ 'No such directory : '+sdk_path)
             exit()
 
         analysis_Result_file= runFlowDroid(file_path,fd_options,sdk_path)
 
         if(not analysis_Result_file): exit() #exit if analysis time out
 
-
     ####################################################parser step####################################################
 
     elif (path.basename(file_path).endswith(".txt")): # .txt file only need parsing
              analysis_Result_file = file_path
     else:
-     print("file type  not supported")
+     print(Fore.RED+"file type  not supported")
     # return "file type  not supported"
      exit()
 
     print("Parsing the analysis output")
 
     App= parser_steps(analysis_Result_file,output_folder)
+    featuresName=get_featureNames()
+    if(args.report):
+        print(Fore.GREEN+"Found the features name :"+featuresName)
+   # print(App)
     #App= parseP(ParseFD(droidlicious_DIR+"UserParser/", ))
-    print("Parser done")
+    print("Parsing is done")
+
     os.chdir(drd_dir)
     #delete_Output()  # delete all the outpute during the analysis and parsing :)
-
+    print("Classifiying the app")
     ####################################################prediction step####################################################
-    predict(App)
+   # predict(App)
 
 
 def isDirValide(file_dir):
     if(not path.exists(file_dir)):
-        print("Cant find the file")
+        print(Fore.RED+' No such file or directory: '+file_dir)
         exit()
     if(path.getsize(file_dir)==0):
-        print ("file is empty")
+        print (Fore.RED+"File is empty")
         exit()
 
 
 def predict(X_test):
-    sample=np.array(X_test[1:])
+    sample=np.array(X_test[1:]) ##
     k= sample.reshape(1,-1)
     print(k)
     model_file ='initial_model.sav'
@@ -133,9 +141,10 @@ def set_option(input_option):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('file', type=str, help="get the result")
-    parser.add_argument("-op", type=str, required=False, dest='options', help=" Enter the option of FlowDroid ")
+    parser.add_argument('file', type=str, help="")
+    parser.add_argument("-op", type=str, required=False, dest='options', help=" FlowDroid options")
     parser.add_argument('-sdk', type=str, required=False, action='store', dest="sdks", help="sdk path")
+    parser.add_argument('-report',type=bool, required=False,action='store',dest='report',help='Get the result of the classification and features name')
     parser.add_argument('--version', action='version', version='DroidLicious 1.0')
 
     args = parser.parse_args()

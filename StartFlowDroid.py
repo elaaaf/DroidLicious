@@ -1,6 +1,6 @@
 import os
 from os import path
-
+from colorama import Fore
 import sys
 from subprocess import Popen
 from subprocess import TimeoutExpired
@@ -45,11 +45,11 @@ def runFlowDroid(apk_dir, options,sdk_path):
     if (not timeout):
         with open(resultFile, "w") as output:
            output.write(str(stdout).replace("\\n", "\n").replace("\\t", "\t").replace("\\r", ""))
-        print("analysis is done")
+        print(Fore.GREEN+"Analysis is done")
         print(Analysis_Output_dir+"/"+resultFile)
         return (Analysis_Output_dir+"/"+resultFile)
     else:
-        print("Static analysis timeout ")
+        print(Fore.RED+"Static analysis timeout ")
         return False
 
 

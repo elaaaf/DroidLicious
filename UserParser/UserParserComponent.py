@@ -10,28 +10,29 @@ import subprocess
 import re
 import timeit
 from os import path
-
+from colorama import Fore
 #INPUT
 #pathFD = "/Users/elaafsalem/Downloads/AMD_Anlys/Test/357d366f9b43e8f1acb334d57e7559b3_FD.txt"
 classPath = os.getcwd()+"/UserParser/"
 
 MLcolumnsList = [
-       '<java.net.URL: java.net.URLConnection openConnection()> ~> <java.net.HttpURLConnection: void setRequestMethod(java.lang.String)>',
-       '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.widget.TextView: void setText(java.lang.CharSequence)>',
-       '<android.telephony.TelephonyManager: java.lang.String getDeviceId()> ~> <org.apache.http.message.BasicNameValuePair: void init(java.lang.String,java.lang.String)>',
-       '<android.app.PendingIntent: android.app.PendingIntent getBroadcast(android.content.Context,int,android.content.Intent,int)> ~> <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>',
-       '<android.telephony.TelephonyManager: java.lang.String getSubscriberId()> ~> <android.os.Bundle: void putString(java.lang.String,java.lang.String)>',
-       '<android.telephony.TelephonyManager: java.lang.String getLine1Number()> ~> <android.util.Log: int v(java.lang.String,java.lang.String)>',
-       '<android.app.PendingIntent: android.app.PendingIntent getActivity(android.content.Context,int,android.content.Intent,int)> ~> <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>',
-       '<android.app.Activity: android.content.Intent getIntent()> ~> <android.util.Log: int w(java.lang.String,java.lang.String)>',
-       '<android.app.PendingIntent: android.app.PendingIntent getBroadcast(android.content.Context,int,android.content.Intent,int)> ~> <android.content.Context: android.content.ComponentName startService(android.content.Intent)>',
-       '<com.google.ads.AdActivity: android.content.Intent getIntent()> ~> <android.util.Log: int e(java.lang.String,java.lang.String)>',
-       '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.os.Bundle: void putString(java.lang.String,java.lang.String)> ',
-       '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int d(java.lang.String,java.lang.String)> ',
-       '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int e(java.lang.String,java.lang.String)> ',
-       '<android.os.Bundle: int getInt(java.lang.String)> ~> <android.os.Bundle: void putInt(java.lang.String,int)> ',
-       '<android.os.Bundle: java.io.Serializable getSerializable(java.lang.String)> ~> <android.os.Bundle: void putSerializable(java.lang.String,java.io.Serializable)> ']
-  
+    '<java.net.URL: java.net.URLConnection openConnection()> ~> <java.net.HttpURLConnection: void setRequestMethod(java.lang.String)>',
+    '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.widget.TextView: void setText(java.lang.CharSequence)>',
+    '<android.telephony.TelephonyManager: java.lang.String getDeviceId()> ~> <org.apache.http.message.BasicNameValuePair: void init(java.lang.String,java.lang.String)>',
+    '<android.app.PendingIntent: android.app.PendingIntent getBroadcast(android.content.Context,int,android.content.Intent,int)> ~> <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>',
+    '<android.telephony.TelephonyManager: java.lang.String getSubscriberId()> ~> <android.os.Bundle: void putString(java.lang.String,java.lang.String)>',
+    '<android.telephony.TelephonyManager: java.lang.String getLine1Number()> ~> <android.util.Log: int v(java.lang.String,java.lang.String)>',
+    '<android.app.PendingIntent: android.app.PendingIntent getActivity(android.content.Context,int,android.content.Intent,int)> ~> <android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>',
+    '<android.app.Activity: android.content.Intent getIntent()> ~> <android.util.Log: int w(java.lang.String,java.lang.String)>',
+    '<android.app.PendingIntent: android.app.PendingIntent getBroadcast(android.content.Context,int,android.content.Intent,int)> ~> <android.content.Context: android.content.ComponentName startService(android.content.Intent)>',
+    '<com.google.ads.AdActivity: android.content.Intent getIntent()> ~> <android.util.Log: int e(java.lang.String,java.lang.String)>',
+    '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.os.Bundle: void putString(java.lang.String,java.lang.String)> ',
+    '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int d(java.lang.String,java.lang.String)> ',
+    '<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int e(java.lang.String,java.lang.String)> ',
+    '<android.os.Bundle: int getInt(java.lang.String)> ~> <android.os.Bundle: void putInt(java.lang.String,int)> ',
+    '<android.os.Bundle: java.io.Serializable getSerializable(java.lang.String)> ~> <android.os.Bundle: void putSerializable(java.lang.String,java.io.Serializable)> ']
+featureNames = []
+
 
 def parser_steps(FDtxtPath ,Analysis_Output_dir):
     finderror(FDtxtPath)
@@ -43,7 +44,7 @@ def finderror(path):
         for line in f:
             if (line.__contains__('Exception in thread "main"')): # error msg from flowdroid
                 i =line.find(':')+1
-                print(line[i:])
+                print(Fore.RED+'Error massage from FlowDroid:'+line[i:])
                 exit(0)
 
 
@@ -80,7 +81,7 @@ def ParseFD(FDtxtPath ,Analysis_Output_dir):
 ######################################################################
 def fillTemplate(MLcolumnsList,pathFD,Analysis_Output_dir):
     os.chdir(classPath)
-    resultP = Analysis_Output_dir + "/" + path.basename(pathFD).replace('_FD', '_P')
+    parsedFilePath = Analysis_Output_dir + "/" + path.basename(pathFD).replace('_FD', '_P')
     process = subprocess.Popen('java ParseFD ' + pathFD + ' ' + Analysis_Output_dir, shell=True,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT)
@@ -88,10 +89,10 @@ def fillTemplate(MLcolumnsList,pathFD,Analysis_Output_dir):
     print("-------------------------------------------")
 
     #parsedFilePath = (pathFD[:-6]+"P.txt")
-    parsedFilePath=resultP
+    #parsedFilePath=resultP
     dataflows = []
     tempList = []
-    
+
     with open(parsedFilePath) as f:
         for line in f:
             dataflows.append(line[:-1])
@@ -106,10 +107,16 @@ def fillTemplate(MLcolumnsList,pathFD,Analysis_Output_dir):
     for i in MLcolumnsList:    
         if i in dataflows:
             tempList.append(1)
+            featureNames.append(i)
         else:
             tempList.append(0)
             
     return tempList
+
+def get_featureNames():
+    if(featureNames.__len__()==0):
+        return 'None'
+    return featureNames
 
 
 ###########################EXAMPLE###############################
