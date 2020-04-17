@@ -19,7 +19,7 @@ init(autoreset=True)# color
 
 
 
-def  main(file_path,input_options,sdk_path):# the working flow start from here
+def  main(file_path,input_options,sdk_path,report):# the working flow start from here
 
     fd_options= set_option(input_options) # parsing the option to match for flowdroid
 
@@ -54,17 +54,16 @@ def  main(file_path,input_options,sdk_path):# the working flow start from here
 
     App= parser_steps(analysis_Result_file,output_folder)
     featuresName=get_featureNames()
-    if(args.report):
+    if(report):
         print(Fore.GREEN+"Found the features name :"+featuresName)
-   # print(App)
-    #App= parseP(ParseFD(droidlicious_DIR+"UserParser/", ))
+
     print("Parsing is done")
 
     os.chdir(drd_dir)
-    #delete_Output()  # delete all the outpute during the analysis and parsing :)
+    delete_Output()  # delete all the outpute during the analysis and parsing :)
     print("Classifiying the app")
     ####################################################prediction step####################################################
-   # predict(App)
+    predict(App)
 
 
 def isDirValide(file_dir):
@@ -101,7 +100,7 @@ def set_option(input_option):
     fd_option = ""
     space = ' '
     arr = input_option.split(' ')
-    if (arr.__contains__('af')):
+    if (arr.__contains__('Aflow')):
         fd_option += '--aliasflowins' + space
 
     if (arr.__contains__('stat')):
@@ -116,7 +115,7 @@ def set_option(input_option):
             print("enter length correctly")
             exit()
     else:
-        fd_option +='--aplength 2'  # defult option
+        fd_option +='--aplength 2'+ space  # defult option
     if (arr.__contains__('noback')):
         fd_option += '--nocallbacks' + space
 
@@ -135,7 +134,7 @@ def set_option(input_option):
 
     if (arr.__contains__('nopaths')):
         fd_option += '--nopaths' + space
-
+        print(fd_option)
     return fd_option
 
 
@@ -151,4 +150,5 @@ if __name__ == "__main__":
     file_path = args.file
     input_options = args.options
     sdk_path = args.sdks
-    main(file_path,input_options,sdk_path)
+    report=args.report
+    main(file_path,input_options,sdk_path,report)
