@@ -1,21 +1,21 @@
 from unittest import TestCase
-import UserParser.UserParserComponent
+import UserParserComponent
 import os
-Error_msgFD='C:\\Users\shosho\DroidLicious\Analysis_Output\\4G_Speed_UC_FD.txt' # contain error masg (
-file='F:\Project\AndroMalyZer_Dataset\APK_NotYetIncluded\\apk_storage1_114apk\com-kiddoware-kidspictureviewer\com_kiddoware_kidspictureviewer-8_FD.txt'
+Error_msgFD='F:\Project\App\Error_Msg.txt' # contain error masg (
+file='F:\Project\App\com_kiddoware_kidspictureviewer-8_FD.txt'
+noflowFile="F:\Project\App\\air_com_iojoe_A9FlowDroidResults.txt"
 output_folder = os.getcwd() + "/Analysis_Output/"
 
 class TestCase1(TestCase):
-
     def test_finderror(self):# print the error massge and exit
         with self.assertRaises(SystemExit):
-            UserParser.UserParserComponent.finderror(Error_msgFD)
+            UserParserComponent.finderror(Error_msgFD)
 
 
 
 class TestCase2(TestCase):
-    def test_finderror(self): #no error find
-        self.assertEqual(UserParser.UserParserComponent.finderror(file),None)
+    def test_finderror(self): #no error
+        self.assertEqual(UserParserComponent.finderror(file),None)
 
     def test_fill_template(self): # ensure the output of the temp list equle to the number of the model's features
-        self.assertEqual(UserParser.UserParserComponent.fillTemplate(file,output_folder).__len__(),16)
+        self.assertEqual(UserParserComponent.fillTemplate(file,output_folder).__len__(),101)

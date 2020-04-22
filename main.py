@@ -1,14 +1,13 @@
 import argparse
 from os import path
 from StartFlowDroid import runFlowDroid
-from UserParser.UserParserComponent import parser_steps ,get_featureNames
+from UserParserComponent import parser_steps ,get_featureNames
 import os
 import pickle
 import sklearn
 import numpy as np
 from colorama import Fore,init
-
-
+import sklearn.ensemble._forest
 
 
 drd_dir = os.getcwd() + "/"  #droidlicious working dircroty
@@ -55,7 +54,8 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
     App= parser_steps(analysis_Result_file,output_folder)
     featuresName=get_featureNames()
     if(report):
-        print(Fore.GREEN+"Found the features name :"+featuresName)
+        print(Fore.GREEN+"Found the features name :")
+        print(featuresName)
 
     print("Parsing is done")
 
@@ -63,8 +63,11 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
     delete_Output()  # delete all the outpute during the analysis and parsing :)
     print("Classifiying the app")
     ####################################################prediction step####################################################
-    predict(App)
-
+    result = predict(App)
+    if(result[0]==1):
+        print(path.basename(file_path)+ " has malicious-like bahvior")
+    else:
+       print(path.basename(file_path) + "has non-malicious-like bahvior")
 
 def isDirValide(file_dir):
     if(not path.exists(file_dir)):
@@ -78,11 +81,11 @@ def isDirValide(file_dir):
 def predict(X_test):
     sample=np.array(X_test[1:]) ##
     k= sample.reshape(1,-1)
-    print(k)
-    model_file ='initial_model.sav'
+   # print(k)
+    model_file ='rndfst.sav'
     load_lr_model = pickle.load(open(model_file, 'rb'))
-    y= load_lr_model.predict(k)
-    print(y)
+    y=  load_lr_model.predict(k)
+    return y.tolist()
 
 
 def delete_Output():
@@ -116,7 +119,7 @@ def set_option(input_option):
             exit()
     else:
         fd_option +='--aplength 2'+ space  # defult option
-    if (arr.__contains__('noback')):
+    if (arr.__contains__(' ')):
         fd_option += '--nocallbacks' + space
 
     if (arr.__contains__('src')):
@@ -134,7 +137,6 @@ def set_option(input_option):
 
     if (arr.__contains__('nopaths')):
         fd_option += '--nopaths' + space
-        print(fd_option)
     return fd_option
 
 
@@ -142,8 +144,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('file', type=str, help="")
     parser.add_argument("-op", type=str, required=False, dest='options', help=" FlowDroid options")
-    parser.add_argument('-sdk', type=str, required=False, action='store', dest="sdks", help="sdk path")
-    parser.add_argument('-report',type=bool, required=False,action='store',dest='report',help='Get the result of the classification and features name')
+    parser.add_argument('-sdk', type=str, required=False, action='store', dest="sdks", help="Android SDK directory")
+    parser.add_argument('-report',type=bool, required=False,action='store',dest='report',help='Get the features name')
     parser.add_argument('--version', action='version', version='DroidLicious 1.0')
 
     args = parser.parse_args()

@@ -46,7 +46,6 @@ def runFlowDroid(apk_dir, options,sdk_path):
         with open(resultFile, "w") as output:
            output.write(str(stdout).replace("\\n", "\n").replace("\\t", "\t").replace("\\r", ""))
         print(Fore.GREEN+"Analysis is done")
-        print(Analysis_Output_dir+"/"+resultFile)
         return (Analysis_Output_dir+"/"+resultFile)
     else:
         print(Fore.RED+"Static analysis timeout ")
