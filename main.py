@@ -74,7 +74,7 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
     if(result[0]==1):
         print(Fore.GREEN+path.basename(file_path)+ " has malicious-like behavior")
     else:
-       print(Fore.GREEN+path.basename(file_path) + " does has not has malicious-like behavior")
+       print(Fore.GREEN+path.basename(file_path) + " does not have malicious-like behavior")
 
 def isDirValide(file_dir):
     if(not path.exists(file_dir)):
