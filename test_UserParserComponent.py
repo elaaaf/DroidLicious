@@ -1,7 +1,6 @@
 from unittest import TestCase
 import UserParserComponent
 import os
-Error_msgFD='F:\Project\App\Error_Msg.txt' # contain error masg (
 file='F:\Project\App\com_kiddoware_kidspictureviewer-8_FD.txt'
 noflowFile="F:\Project\App\\air_com_iojoe_A9FlowDroidResults.txt"
 output_folder = os.getcwd() + "/Analysis_Output/"

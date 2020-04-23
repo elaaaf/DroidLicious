@@ -1,7 +1,7 @@
 import argparse
 from os import path
 from StartFlowDroid import runFlowDroid
-from UserParserComponent import parser_steps ,get_featureNames
+from UserParserComponent import parser_run ,get_featureNames
 import os
 import pickle
 import sklearn
@@ -49,9 +49,11 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
     # return "file type  not supported"
      exit()
 
+    finderror(analysis_Result_file)
+
     print("Parsing the analysis output")
 
-    App= parser_steps(analysis_Result_file,output_folder)
+    App= parser_run(analysis_Result_file,output_folder)
     featuresName=get_featureNames()
     if(report):
         print(Fore.GREEN+"Found the features name :")
@@ -95,6 +97,16 @@ def delete_Output():
            if (path.isfile(f)):
             os.remove(f)
    os.chdir(drd_dir)
+
+def finderror(path):
+    with open(path) as f:
+        for line in f:
+            if (line.__contains__('Exception in thread "main"')): # error msg from flowdroid
+                i =line.find(':')+1
+                print(Fore.RED+'Error massage from FlowDroid:'+line[i:])
+                exit(0)
+
+
 
 def set_option(input_option):
     if(input_option.__eq__('None')):

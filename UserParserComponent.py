@@ -19,18 +19,10 @@ classPath = os.getcwd()+"/UserParser/"
 featureNames = []
 
 
-def parser_steps(FDtxtPath ,Analysis_Output_dir):
-    finderror(FDtxtPath)
+def parser_run(FDtxtPath ,Analysis_Output_dir):
     result=fillTemplate(FDtxtPath,Analysis_Output_dir)
     return result
 
-def finderror(path):
-    with open(path) as f:
-        for line in f:
-            if (line.__contains__('Exception in thread "main"')): # error msg from flowdroid
-                i =line.find(':')+1
-                print(Fore.RED+'Error massage from FlowDroid:'+line[i:])
-                exit(0)
 
 
 #######CHANGED TO BE DELETED##########################################

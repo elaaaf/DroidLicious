@@ -12,6 +12,7 @@ emptyfile= "C:\\Users\shosho\Documents\\apks\Angry_Birds_1_3_5.apk"
 sdk_dir="c:/tools/platforms"
 benign_pool="C:\\Users\shosho\DroidLicious\TestSet\B"
 mal_pool="C:\\Users\shosho\DroidLicious\TestSet\M"
+Error_msgFD='F:\Project\App\Error_Msg.txt' # contain error masg (
 
 
 class Test1(TestCase):
@@ -57,3 +58,9 @@ class Test7(TestCase):
     def test_main(self):
         ben_file = benign_pool + '\\' + random.choice(os.listdir(benign_pool))
         self.assertEqual(main.main(ben_file, None, sdk_dir, None),"benign like bahvior")
+
+class Test7(TestCase):
+    # testing benign apps
+    def test_main(self):
+        with self.assertRaises(SystemExit):
+            main.main(Error_msgFD, None, None, False)
