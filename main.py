@@ -55,9 +55,14 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
 
     App= parser_run(analysis_Result_file,output_folder)
     featuresName=get_featureNames()
+    print("Parsing is done")
+
     if(report):
-        print(Fore.GREEN+"Found the features name :")
-        print(featuresName)
+        if(featuresName=='None'):
+            print("The app dataflow does not found in the features ")
+        else:
+            print(Fore.GREEN+"the founded features :")
+            print(featuresName)
 
     print("Parsing is done")
 
@@ -67,9 +72,9 @@ def  main(file_path,input_options,sdk_path,report):# the working flow start from
     ####################################################prediction step####################################################
     result = predict(App)
     if(result[0]==1):
-        print(path.basename(file_path)+ " has malicious-like bahvior")
+        print(Fore.GREEN+path.basename(file_path)+ " has malicious-like behavior")
     else:
-       print(path.basename(file_path) + "has non-malicious-like bahvior")
+       print(Fore.GREEN+path.basename(file_path) + " does has not has malicious-like behavior")
 
 def isDirValide(file_dir):
     if(not path.exists(file_dir)):
@@ -157,8 +162,8 @@ if __name__ == "__main__":
     parser.add_argument('file', type=str, help="")
     parser.add_argument("-op", type=str, required=False, dest='options', help=" FlowDroid options")
     parser.add_argument('-sdk', type=str, required=False, action='store', dest="sdks", help="Android SDK directory")
-    parser.add_argument('-report',type=bool, required=False,action='store',dest='report',help='Get the features name')
-    parser.add_argument('--version', action='version', version='DroidLicious 1.0')
+    parser.add_argument('-report', required=False,action='store_true',dest='report',help='Get the features name')
+    parser.add_argument('-version', action='version', version='DroidLicious 1.0')
 
     args = parser.parse_args()
     file_path = args.file
