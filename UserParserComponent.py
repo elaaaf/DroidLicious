@@ -149,8 +149,6 @@ def fillTemplate(pathFD,Analysis_Output_dir):
     process=process.communicate()
     print("-------------------------------------------")
 
-    #parsedFilePath = (pathFD[:-6]+"P.txt")
-    #parsedFilePath=resultP
     dataflows = []
     tempList = []
 
