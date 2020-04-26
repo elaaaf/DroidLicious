@@ -14,49 +14,7 @@ from colorama import Fore
 #INPUT
 #pathFD = "/Users/elaafsalem/Downloads/AMD_Anlys/Test/357d366f9b43e8f1acb334d57e7559b3_FD.txt"
 classPath = os.getcwd()+"/UserParser/"
-
-
-featureNames = []
-
-
-def parser_run(FDtxtPath ,Analysis_Output_dir):
-    result=fillTemplate(FDtxtPath,Analysis_Output_dir)
-    return result
-
-
-
-#######CHANGED TO BE DELETED##########################################
-def ParseFD(FDtxtPath ,Analysis_Output_dir):
-    os.chdir(classPath)
-    resultP= Analysis_Output_dir+"/"+ path.basename(FDtxtPath).replace('_FD','_P')
-    process = subprocess.Popen('java ParseFD '+FDtxtPath+' '+Analysis_Output_dir, shell=True, stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT)
-    stdout, stderr = process.communicate()
-    #with open(resultP, "w") as output:
-     #   output.write(str(stdout))
-    return (resultP)
-  #  return (FDtxtPath[:-6]+"P.txt")
-######################################################################
-
-
-
-
-###########################fillTemplate###############################
-#############################INPUT###############################
-#MLcolumnsList: selected features (columns) from the dataset
-#pathFD: flowdroid txt file path
-############################OUTPUT###############################
-#List of ["AppName", zeros and ones]
-#example ["AppX", 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-##########################DESCRIPTION############################
-#This function takes the output of flowdroid and parse it
-#in the form of "src ~> snk". Then it fit its dataflows to our
-#dataset (exclude missing features). The output of this function 
-#is used in the machine learning model to predict if the app have 
-#a malicious behavior.
-######################################################################
-def fillTemplate(pathFD,Analysis_Output_dir):
-    MLcolumnsList = ['<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int w(java.lang.String,java.lang.String)>',
+MLcolumnsList = ['<android.os.Bundle: java.lang.String getString(java.lang.String)> ~> <android.util.Log: int w(java.lang.String,java.lang.String)>',
  '<android.os.Bundle: int getInt(java.lang.String)> ~> <android.util.Log: int i(java.lang.String,java.lang.String)>',
  '<android.telephony.TelephonyManager: java.lang.String getDeviceId()> ~> <android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putInt(java.lang.String,int)>',
  '<android.telephony.TelephonyManager: java.lang.String getLine1Number()> ~> <android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>',
@@ -157,6 +115,32 @@ def fillTemplate(pathFD,Analysis_Output_dir):
  '<android.database.Cursor: java.lang.String getString(int)> ~> <android.content.Intent: android.content.Intent putExtra(java.lang.String,java.io.Serializable)>',
  '<android.os.Bundle: android.os.Parcelable getParcelable(java.lang.String)> ~> <android.content.Context: void startActivity(android.content.Intent)>']
 
+
+featureNames = []
+
+
+def parser_run(FDtxtPath ,Analysis_Output_dir):
+    result=fillTemplate(FDtxtPath,Analysis_Output_dir)
+    return result
+
+
+
+###########################fillTemplate###############################
+#############################INPUT###############################
+#MLcolumnsList: selected features (columns) from the dataset
+#pathFD: flowdroid txt file path
+############################OUTPUT###############################
+#List of ["AppName", zeros and ones]
+#example ["AppX", 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+##########################DESCRIPTION############################
+#This function takes the output of flowdroid and parse it
+#in the form of "src ~> snk". Then it fit its dataflows to our
+#dataset (exclude missing features). The output of this function 
+#is used in the machine learning model to predict if the app have 
+#a malicious behavior.
+######################################################################
+def fillTemplate(pathFD,Analysis_Output_dir):
+    
     os.chdir(classPath)
     parsedFilePath = Analysis_Output_dir + "/" + path.basename(pathFD).replace('_FD', '_P')
     process = subprocess.Popen('java ParseFD ' + pathFD + ' ' + Analysis_Output_dir, shell=True,
