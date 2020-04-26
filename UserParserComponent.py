@@ -156,9 +156,7 @@ def fillTemplate(pathFD,Analysis_Output_dir):
         for line in f:
             dataflows.append(line[:-1])
 
-    tempList.append(os.path.basename(parsedFilePath)[:-6])#DO WE need the app name ?
-
-
+    tempList.append(os.path.basename(parsedFilePath)[:-6])
     
     if((dataflows == []) & ("NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK" in MLcolumnsList)):
         dataflows.append("NO_SENSITIVE_SOURCE ~> NO_SENSITIVE_SINK")
